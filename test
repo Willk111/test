@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Basic bash test script
+# Exits 0 when all tests pass, non-zero if any test fails.
+
+set -euo pipefail
+
+echo "Running basic tests..."
+
+pass=0
+fail=0
+
+ok()  { ((pass++)); echo "ok   - $*"; }
+ko()  { ((fail++)); echo "FAIL - $*"; }
+
+# Test 1: simple arithmetic
+if (( 1 + 1 == 2 )); then
+  ok "arithmetic 1+1 == 2"
+else
+  ko "arithmetic 1+1 != 2"
+fi
+
+# Test 2: bash available
+if command -v bash >/dev/null 2>&1; then
+  ok "bash is available"
+else
+  ko "bash is not available"
+fi
+
+# Test 3: create/read a temporary file
+tmpfile="$(mktemp)"
+echo "hello" > "$tmpfile"
+if [[ "$(cat "$tmpfile")" == "hello" ]]; then
+  ok "file write/read"
+else
+  ko "file write/read"
+fi
+rm -f "$tmpfile"
+
+# Test 4: simple string comparison
+s="abc"
+if [[ "$s" == "abc" ]]; then
+  ok "string comparison"
+else
+  ko "string comparison"
+fi
+
+# Summary
+echo
+echo "Tests passed: $pass"
+echo "Tests failed: $fail"
+
+if (( fail > 0 )); then
+  exit 1
+else
+  exit 0
+fi
