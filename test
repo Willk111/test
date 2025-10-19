@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Basic bash test script
 # Exits 0 when all tests pass, non-zero if any test fails.
-
+#New test addition 
 set -euo pipefail
 
 echo "Running basic tests..."
